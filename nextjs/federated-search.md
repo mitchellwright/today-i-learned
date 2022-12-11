@@ -89,3 +89,58 @@ const SearchPage = () => {
   );
 };
 ```
+
+Here are examples of the three different services mentioned:
+### GitHub
+```js
+const GITHUB_API_URL = 'https://api.github.com';
+
+const queryGitHub = async (query) => {
+  // Replace `<YOUR_TOKEN>` with your GitHub personal access token
+  const headers = {
+    Authorization: `Bearer <YOUR_TOKEN>`,
+  };
+
+  const response = await fetch(`${GITHUB_API_URL}/search/code`, {
+    method: 'GET',
+    headers,
+    params: {
+      q: query,
+    },
+  });
+  const data = await response.json();
+
+  return data.items.map((item) => ({
+    id: item.id,
+    title: item.name,
+    url: item.html_url,
+  }));
+};
+```
+
+### OpenMetadata
+```js
+const OPENMETADATA_API_URL = 'https://api.openmetadata.org';
+
+const queryOpenMetadata = async (query) => {
+  // Replace `<YOUR_API_KEY>` with your OpenMetadata API key
+  const headers = {
+    'X-Api-Key': `<YOUR_API_KEY>`,
+  };
+
+  const { data } = await axios.get(`${OPENMETADATA_API_URL}/search`, {
+    params: {
+      q: query,
+    },
+    headers,
+  });
+
+  return data.results.map((result) => ({
+    id: result.id,
+    title: result.title,
+    url: result.url,
+  }));
+};
+```
+
+### Notion
